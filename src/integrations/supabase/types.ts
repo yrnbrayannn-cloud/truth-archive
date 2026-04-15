@@ -14,16 +14,248 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      claim_submissions: {
+        Row: {
+          claim_text: string
+          context: string | null
+          created_at: string
+          email: string | null
+          id: string
+          source: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          claim_text: string
+          context?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          source?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          claim_text?: string
+          context?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          source?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      fact_checks: {
+        Row: {
+          author: string | null
+          category: string | null
+          claim: string
+          confidence_level: string | null
+          created_at: string
+          date: string | null
+          excerpt: string | null
+          featured: boolean | null
+          id: string
+          politician_id: string | null
+          shares: number | null
+          sources_count: number | null
+          title: string
+          updated_at: string
+          verdict: string
+        }
+        Insert: {
+          author?: string | null
+          category?: string | null
+          claim: string
+          confidence_level?: string | null
+          created_at?: string
+          date?: string | null
+          excerpt?: string | null
+          featured?: boolean | null
+          id?: string
+          politician_id?: string | null
+          shares?: number | null
+          sources_count?: number | null
+          title: string
+          updated_at?: string
+          verdict: string
+        }
+        Update: {
+          author?: string | null
+          category?: string | null
+          claim?: string
+          confidence_level?: string | null
+          created_at?: string
+          date?: string | null
+          excerpt?: string | null
+          featured?: boolean | null
+          id?: string
+          politician_id?: string | null
+          shares?: number | null
+          sources_count?: number | null
+          title?: string
+          updated_at?: string
+          verdict?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fact_checks_politician_id_fkey"
+            columns: ["politician_id"]
+            isOneToOne: false
+            referencedRelation: "politicians"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      newsletter_signups: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          source: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          source?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          source?: string | null
+        }
+        Relationships: []
+      }
+      politicians: {
+        Row: {
+          avatar_color: string | null
+          created_at: string
+          false_pct: number | null
+          id: string
+          initials: string | null
+          misleading_pct: number | null
+          name: string
+          role: string | null
+          true_pct: number | null
+          updated_at: string
+        }
+        Insert: {
+          avatar_color?: string | null
+          created_at?: string
+          false_pct?: number | null
+          id?: string
+          initials?: string | null
+          misleading_pct?: number | null
+          name: string
+          role?: string | null
+          true_pct?: number | null
+          updated_at?: string
+        }
+        Update: {
+          avatar_color?: string | null
+          created_at?: string
+          false_pct?: number | null
+          id?: string
+          initials?: string | null
+          misleading_pct?: number | null
+          name?: string
+          role?: string | null
+          true_pct?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      site_stats: {
+        Row: {
+          false_claims_pct: number | null
+          id: string
+          last_updated: string | null
+          politicians_tracked: number | null
+          total_fact_checks: number | null
+        }
+        Insert: {
+          false_claims_pct?: number | null
+          id?: string
+          last_updated?: string | null
+          politicians_tracked?: number | null
+          total_fact_checks?: number | null
+        }
+        Update: {
+          false_claims_pct?: number | null
+          id?: string
+          last_updated?: string | null
+          politicians_tracked?: number | null
+          total_fact_checks?: number | null
+        }
+        Relationships: []
+      }
+      ticker_items: {
+        Row: {
+          created_at: string
+          headline: string
+          id: string
+          is_active: boolean | null
+          label: string | null
+          priority: number | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          headline: string
+          id?: string
+          is_active?: boolean | null
+          label?: string | null
+          priority?: number | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          headline?: string
+          id?: string
+          is_active?: boolean | null
+          label?: string | null
+          priority?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +382,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const
