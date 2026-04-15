@@ -12,9 +12,19 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SubmitRouteImport } from './routes/submit'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as FactChecksRouteImport } from './routes/fact-checks'
+import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PoliticiansIdRouteImport } from './routes/politicians.$id'
 import { Route as FactChecksIdRouteImport } from './routes/fact-checks.$id'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated.admin'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated.admin.index'
+import { Route as AuthenticatedAdminTickerRouteImport } from './routes/_authenticated.admin.ticker'
+import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated.admin.settings'
+import { Route as AuthenticatedAdminPoliticiansRouteImport } from './routes/_authenticated.admin.politicians'
+import { Route as AuthenticatedAdminNewsletterRouteImport } from './routes/_authenticated.admin.newsletter'
+import { Route as AuthenticatedAdminFactChecksRouteImport } from './routes/_authenticated.admin.fact-checks'
+import { Route as AuthenticatedAdminClaimsRouteImport } from './routes/_authenticated.admin.claims'
+import { Route as AuthenticatedAdminFactChecksNewRouteImport } from './routes/_authenticated.admin.fact-checks.new'
 
 const SubmitRoute = SubmitRouteImport.update({
   id: '/submit',
@@ -29,6 +39,10 @@ const LoginRoute = LoginRouteImport.update({
 const FactChecksRoute = FactChecksRouteImport.update({
   id: '/fact-checks',
   path: '/fact-checks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRoute = AuthenticatedRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -46,14 +60,75 @@ const FactChecksIdRoute = FactChecksIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => FactChecksRoute,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminTickerRoute =
+  AuthenticatedAdminTickerRouteImport.update({
+    id: '/ticker',
+    path: '/ticker',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminSettingsRoute =
+  AuthenticatedAdminSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminPoliticiansRoute =
+  AuthenticatedAdminPoliticiansRouteImport.update({
+    id: '/politicians',
+    path: '/politicians',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminNewsletterRoute =
+  AuthenticatedAdminNewsletterRouteImport.update({
+    id: '/newsletter',
+    path: '/newsletter',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminFactChecksRoute =
+  AuthenticatedAdminFactChecksRouteImport.update({
+    id: '/fact-checks',
+    path: '/fact-checks',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminClaimsRoute =
+  AuthenticatedAdminClaimsRouteImport.update({
+    id: '/claims',
+    path: '/claims',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminFactChecksNewRoute =
+  AuthenticatedAdminFactChecksNewRouteImport.update({
+    id: '/new',
+    path: '/new',
+    getParentRoute: () => AuthenticatedAdminFactChecksRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/fact-checks': typeof FactChecksRouteWithChildren
   '/login': typeof LoginRoute
   '/submit': typeof SubmitRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/fact-checks/$id': typeof FactChecksIdRoute
   '/politicians/$id': typeof PoliticiansIdRoute
+  '/admin/claims': typeof AuthenticatedAdminClaimsRoute
+  '/admin/fact-checks': typeof AuthenticatedAdminFactChecksRouteWithChildren
+  '/admin/newsletter': typeof AuthenticatedAdminNewsletterRoute
+  '/admin/politicians': typeof AuthenticatedAdminPoliticiansRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/ticker': typeof AuthenticatedAdminTickerRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/admin/fact-checks/new': typeof AuthenticatedAdminFactChecksNewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,15 +137,33 @@ export interface FileRoutesByTo {
   '/submit': typeof SubmitRoute
   '/fact-checks/$id': typeof FactChecksIdRoute
   '/politicians/$id': typeof PoliticiansIdRoute
+  '/admin/claims': typeof AuthenticatedAdminClaimsRoute
+  '/admin/fact-checks': typeof AuthenticatedAdminFactChecksRouteWithChildren
+  '/admin/newsletter': typeof AuthenticatedAdminNewsletterRoute
+  '/admin/politicians': typeof AuthenticatedAdminPoliticiansRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/ticker': typeof AuthenticatedAdminTickerRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
+  '/admin/fact-checks/new': typeof AuthenticatedAdminFactChecksNewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/fact-checks': typeof FactChecksRouteWithChildren
   '/login': typeof LoginRoute
   '/submit': typeof SubmitRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/fact-checks/$id': typeof FactChecksIdRoute
   '/politicians/$id': typeof PoliticiansIdRoute
+  '/_authenticated/admin/claims': typeof AuthenticatedAdminClaimsRoute
+  '/_authenticated/admin/fact-checks': typeof AuthenticatedAdminFactChecksRouteWithChildren
+  '/_authenticated/admin/newsletter': typeof AuthenticatedAdminNewsletterRoute
+  '/_authenticated/admin/politicians': typeof AuthenticatedAdminPoliticiansRoute
+  '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/_authenticated/admin/ticker': typeof AuthenticatedAdminTickerRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/admin/fact-checks/new': typeof AuthenticatedAdminFactChecksNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -79,8 +172,17 @@ export interface FileRouteTypes {
     | '/fact-checks'
     | '/login'
     | '/submit'
+    | '/admin'
     | '/fact-checks/$id'
     | '/politicians/$id'
+    | '/admin/claims'
+    | '/admin/fact-checks'
+    | '/admin/newsletter'
+    | '/admin/politicians'
+    | '/admin/settings'
+    | '/admin/ticker'
+    | '/admin/'
+    | '/admin/fact-checks/new'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -89,18 +191,37 @@ export interface FileRouteTypes {
     | '/submit'
     | '/fact-checks/$id'
     | '/politicians/$id'
+    | '/admin/claims'
+    | '/admin/fact-checks'
+    | '/admin/newsletter'
+    | '/admin/politicians'
+    | '/admin/settings'
+    | '/admin/ticker'
+    | '/admin'
+    | '/admin/fact-checks/new'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/fact-checks'
     | '/login'
     | '/submit'
+    | '/_authenticated/admin'
     | '/fact-checks/$id'
     | '/politicians/$id'
+    | '/_authenticated/admin/claims'
+    | '/_authenticated/admin/fact-checks'
+    | '/_authenticated/admin/newsletter'
+    | '/_authenticated/admin/politicians'
+    | '/_authenticated/admin/settings'
+    | '/_authenticated/admin/ticker'
+    | '/_authenticated/admin/'
+    | '/_authenticated/admin/fact-checks/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   FactChecksRoute: typeof FactChecksRouteWithChildren
   LoginRoute: typeof LoginRoute
   SubmitRoute: typeof SubmitRoute
@@ -130,6 +251,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FactChecksRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -151,8 +279,121 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FactChecksIdRouteImport
       parentRoute: typeof FactChecksRoute
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/ticker': {
+      id: '/_authenticated/admin/ticker'
+      path: '/ticker'
+      fullPath: '/admin/ticker'
+      preLoaderRoute: typeof AuthenticatedAdminTickerRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/settings': {
+      id: '/_authenticated/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/politicians': {
+      id: '/_authenticated/admin/politicians'
+      path: '/politicians'
+      fullPath: '/admin/politicians'
+      preLoaderRoute: typeof AuthenticatedAdminPoliticiansRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/newsletter': {
+      id: '/_authenticated/admin/newsletter'
+      path: '/newsletter'
+      fullPath: '/admin/newsletter'
+      preLoaderRoute: typeof AuthenticatedAdminNewsletterRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/fact-checks': {
+      id: '/_authenticated/admin/fact-checks'
+      path: '/fact-checks'
+      fullPath: '/admin/fact-checks'
+      preLoaderRoute: typeof AuthenticatedAdminFactChecksRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/claims': {
+      id: '/_authenticated/admin/claims'
+      path: '/claims'
+      fullPath: '/admin/claims'
+      preLoaderRoute: typeof AuthenticatedAdminClaimsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/fact-checks/new': {
+      id: '/_authenticated/admin/fact-checks/new'
+      path: '/new'
+      fullPath: '/admin/fact-checks/new'
+      preLoaderRoute: typeof AuthenticatedAdminFactChecksNewRouteImport
+      parentRoute: typeof AuthenticatedAdminFactChecksRoute
+    }
   }
 }
+
+interface AuthenticatedAdminFactChecksRouteChildren {
+  AuthenticatedAdminFactChecksNewRoute: typeof AuthenticatedAdminFactChecksNewRoute
+}
+
+const AuthenticatedAdminFactChecksRouteChildren: AuthenticatedAdminFactChecksRouteChildren =
+  {
+    AuthenticatedAdminFactChecksNewRoute: AuthenticatedAdminFactChecksNewRoute,
+  }
+
+const AuthenticatedAdminFactChecksRouteWithChildren =
+  AuthenticatedAdminFactChecksRoute._addFileChildren(
+    AuthenticatedAdminFactChecksRouteChildren,
+  )
+
+interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminClaimsRoute: typeof AuthenticatedAdminClaimsRoute
+  AuthenticatedAdminFactChecksRoute: typeof AuthenticatedAdminFactChecksRouteWithChildren
+  AuthenticatedAdminNewsletterRoute: typeof AuthenticatedAdminNewsletterRoute
+  AuthenticatedAdminPoliticiansRoute: typeof AuthenticatedAdminPoliticiansRoute
+  AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
+  AuthenticatedAdminTickerRoute: typeof AuthenticatedAdminTickerRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+}
+
+const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminClaimsRoute: AuthenticatedAdminClaimsRoute,
+  AuthenticatedAdminFactChecksRoute:
+    AuthenticatedAdminFactChecksRouteWithChildren,
+  AuthenticatedAdminNewsletterRoute: AuthenticatedAdminNewsletterRoute,
+  AuthenticatedAdminPoliticiansRoute: AuthenticatedAdminPoliticiansRoute,
+  AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
+  AuthenticatedAdminTickerRoute: AuthenticatedAdminTickerRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+}
+
+const AuthenticatedAdminRouteWithChildren =
+  AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
+
+interface AuthenticatedRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
 
 interface FactChecksRouteChildren {
   FactChecksIdRoute: typeof FactChecksIdRoute
@@ -168,6 +409,7 @@ const FactChecksRouteWithChildren = FactChecksRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
   FactChecksRoute: FactChecksRouteWithChildren,
   LoginRoute: LoginRoute,
   SubmitRoute: SubmitRoute,
