@@ -9,38 +9,127 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SubmitRouteImport } from './routes/submit'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as FactChecksRouteImport } from './routes/fact-checks'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PoliticiansIdRouteImport } from './routes/politicians.$id'
+import { Route as FactChecksIdRouteImport } from './routes/fact-checks.$id'
 
+const SubmitRoute = SubmitRouteImport.update({
+  id: '/submit',
+  path: '/submit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FactChecksRoute = FactChecksRouteImport.update({
+  id: '/fact-checks',
+  path: '/fact-checks',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PoliticiansIdRoute = PoliticiansIdRouteImport.update({
+  id: '/politicians/$id',
+  path: '/politicians/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FactChecksIdRoute = FactChecksIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => FactChecksRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/fact-checks': typeof FactChecksRouteWithChildren
+  '/login': typeof LoginRoute
+  '/submit': typeof SubmitRoute
+  '/fact-checks/$id': typeof FactChecksIdRoute
+  '/politicians/$id': typeof PoliticiansIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/fact-checks': typeof FactChecksRouteWithChildren
+  '/login': typeof LoginRoute
+  '/submit': typeof SubmitRoute
+  '/fact-checks/$id': typeof FactChecksIdRoute
+  '/politicians/$id': typeof PoliticiansIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/fact-checks': typeof FactChecksRouteWithChildren
+  '/login': typeof LoginRoute
+  '/submit': typeof SubmitRoute
+  '/fact-checks/$id': typeof FactChecksIdRoute
+  '/politicians/$id': typeof PoliticiansIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/fact-checks'
+    | '/login'
+    | '/submit'
+    | '/fact-checks/$id'
+    | '/politicians/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/fact-checks'
+    | '/login'
+    | '/submit'
+    | '/fact-checks/$id'
+    | '/politicians/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/fact-checks'
+    | '/login'
+    | '/submit'
+    | '/fact-checks/$id'
+    | '/politicians/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FactChecksRoute: typeof FactChecksRouteWithChildren
+  LoginRoute: typeof LoginRoute
+  SubmitRoute: typeof SubmitRoute
+  PoliticiansIdRoute: typeof PoliticiansIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/submit': {
+      id: '/submit'
+      path: '/submit'
+      fullPath: '/submit'
+      preLoaderRoute: typeof SubmitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fact-checks': {
+      id: '/fact-checks'
+      path: '/fact-checks'
+      fullPath: '/fact-checks'
+      preLoaderRoute: typeof FactChecksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +137,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/politicians/$id': {
+      id: '/politicians/$id'
+      path: '/politicians/$id'
+      fullPath: '/politicians/$id'
+      preLoaderRoute: typeof PoliticiansIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fact-checks/$id': {
+      id: '/fact-checks/$id'
+      path: '/$id'
+      fullPath: '/fact-checks/$id'
+      preLoaderRoute: typeof FactChecksIdRouteImport
+      parentRoute: typeof FactChecksRoute
+    }
   }
 }
 
+interface FactChecksRouteChildren {
+  FactChecksIdRoute: typeof FactChecksIdRoute
+}
+
+const FactChecksRouteChildren: FactChecksRouteChildren = {
+  FactChecksIdRoute: FactChecksIdRoute,
+}
+
+const FactChecksRouteWithChildren = FactChecksRoute._addFileChildren(
+  FactChecksRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FactChecksRoute: FactChecksRouteWithChildren,
+  LoginRoute: LoginRoute,
+  SubmitRoute: SubmitRoute,
+  PoliticiansIdRoute: PoliticiansIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
