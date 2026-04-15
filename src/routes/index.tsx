@@ -1,26 +1,38 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { HeroSection } from "@/components/landing/HeroSection";
+import { SearchBar } from "@/components/landing/SearchBar";
+import { TrendingClaims } from "@/components/landing/TrendingClaims";
+import { PoliticianSpotlight } from "@/components/landing/PoliticianSpotlight";
+import { DataInsights } from "@/components/landing/DataInsights";
+import { EducationSection } from "@/components/landing/EducationSection";
+import { NewsletterSignup } from "@/components/landing/NewsletterSignup";
+import { TickerBar } from "@/components/landing/TickerBar";
 
 export const Route = createFileRoute("/")({
   component: Index,
+  head: () => ({
+    meta: [
+      { title: "Sema Data — Truth Verification Engine for Kenyan Public Claims" },
+      { name: "description", content: "Data-driven fact-checking platform holding Kenya's public figures accountable. Search, explore, and verify claims." },
+    ],
+  }),
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
+function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="min-h-screen bg-background">
+      <Header />
+      <TickerBar />
+      <HeroSection />
+      <SearchBar />
+      <TrendingClaims />
+      <PoliticianSpotlight />
+      <DataInsights />
+      <EducationSection />
+      <NewsletterSignup />
+      <Footer />
     </div>
   );
-}
-
-function Index() {
-  return <PlaceholderIndex />;
 }
