@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 export function DataInsights() {
-  const [stats, setStats] = useState<{ total_fact_checks: number; false_claims_pct: number; politicians_tracked: number } | null>(null);
+  const [stats, setStats] = useState<{ total_fact_checks: number | null; false_claims_pct: number | null; politicians_tracked: number | null } | null>(null);
 
   useEffect(() => {
     supabase
